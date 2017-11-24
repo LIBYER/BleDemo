@@ -94,25 +94,20 @@ public class MainActivity extends AppCompatActivity {
 
     };
 
-    private void scanLeDevice(final boolean enable) {
-        if (enable) {
+    private void scanLeDevice() {
 
 
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mScanning = false;
+                mBluetoothAdapter.stopLeScan(mLeScanCallback);
+            }
+        }, 30000);
+        mScanning = true;
+        // 定义一个回调接口供扫描结束处理
+        mBluetoothAdapter.startLeScan(mLeScanCallback);
 
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mScanning = false;
-                    mBluetoothAdapter.stopLeScan(mLeScanCallback);
-                }
-            }, 30000);
-            mScanning = true;
-            // 定义一个回调接口供扫描结束处理
-            mBluetoothAdapter.startLeScan(mLeScanCallback);
-        } else {
-            mScanning = false;
-            mBluetoothAdapter.stopLeScan(mLeScanCallback);
-        }
     }
 
 
@@ -292,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
         }
 
-        scanLeDevice(true);
+        scanLeDevice();
 
 
     }
